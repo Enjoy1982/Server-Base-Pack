@@ -4,7 +4,7 @@ name: Server-Base-Pack
 version: 1.0.0
 author: Enjoy_it
 description: >
-  Solo incluye la base, incluidos los esx_core y cualquier lanzamientos gratuitos
+  Solo incluye la base, incluidos los esx_core y cualquier lanzamientos gratuitos.
 
 tasks:
   # MAIN SERVER CONFIGURATION
@@ -17,15 +17,17 @@ tasks:
     src: ./tmp/recipe/myLogo.png
     dest: ./myLogo.png
 
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+    overwrite: true
+
   # ENSURE RESOURCE DIRECTORIES
   - action: ensure_dir
     path: ./resources
 
   - action: ensure_dir
     path: ./resources/[cfx-default]
-
-  - action: ensure_dir
-    path: ./resources/[esx]
 
   - action: ensure_dir
     path: ./resources/[badgers]
@@ -73,7 +75,18 @@ tasks:
   - action: remove_path
     path: ./resources/[cfx-default]/[gameplay]/chat  
 
-  # ESX CORE AND ADDONS
+  # [BADGERS]
+  - action: download_github
+    src: https://github.com/JaredScar/Badger_Discord_API
+    ref: main
+    dest: ./resources/[badgers]/Badger_Discord_API
+
+  - action: download_github 
+    src: https://github.com/JaredScar/DiscordAcePerms
+    ref: master 
+    dest: ./resources/[badgers]/DiscordAcePerms
+
+  # ESX CORE
   - action: download_github
     src: https://github.com/esx-framework/esx-core
     ref: main
@@ -129,11 +142,6 @@ tasks:
     dest: ./tmp/addons/esx_property
 
   - action: download_github
-    src: https://github.com/esx-framework/esx_joblisting
-    ref: main
-    dest: ./tmp/addons/esx_joblisting
-
-  - action: download_github
     src: https://github.com/esx-framework/esx_society
     ref: main
     dest: ./tmp/addons/esx_society
@@ -148,7 +156,7 @@ tasks:
     ref: main
     dest: ./tmp/addons/esx_status
 
-- action: move_path
+  - action: move_path
     src: ./tmp/core/[core]
     dest: ./resources/[core]
 
@@ -263,7 +271,7 @@ tasks:
     ref: ox
     dest: ./resources/[dependencias]/pe-basicloading
 
-  # PLUGGINS
+  # PLUGINS
   - action: download_github
     dest: ./resources/[pluggins]/scully_emotemenu
     ref: main
@@ -293,17 +301,9 @@ tasks:
     ref: master
     dest: ./resources/[stream]/bob74_ipl
 
-  - action: move_path
-    src: ./tmp/recipe/server.cfg
-    dest: ./server.cfg
-    overwrite: true
-
-  - action: move_path
-    src: ./resources/[core]/es_extended
-    dest: ./resources
-
   # SQL CONFIGURATION
   - action: connect_database
+
   - action: query_database
     file: ./tmp/core/[SQL]/legacy.sql
 
