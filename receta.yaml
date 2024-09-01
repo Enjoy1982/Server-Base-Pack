@@ -7,32 +7,101 @@ description: >
   Solo incluye la base, incluidos los esx_core y cualquier lanzamientos gratuitos
 
 tasks:
-  # DOWNLOAD BASE FILES FROM TXADMINRECIPE
+  # MAIN SERVER CONFIGURATION
   - action: download_github
-    src: https://github.com/Server-Base-Pack/receta/
+    src: https://github.com/Enjoy1982/Server-Base-Pack/
     ref: main
     dest: ./tmp/recipe
 
-  # ENSURE RESOURCE FOLDER  
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+
+  - action: move_path
+    src: ./tmp/recipe/myLogo.png
+    dest: ./myLogo.png
+    overwrite: true
+
+  # ENSURE RESOURCE DIRECTORIES
   - action: ensure_dir
     path: ./resources
-    
-  # ENSURE SUB RESOURCE FOLDERS
-  # [CFX-DEFAULT] 
+
+  - action: ensure_dir
+    path: ./resources/[cfx-default]
+
+  - action: ensure_dir
+    path: ./resources/[core]
+
+  - action: ensure_dir
+    path: ./resources/[esx]
+
+  - action: ensure_dir
+    path: ./resources/[badgers]
+
+  - action: ensure_dir
+    path: ./resources/[librerias]
+
+  - action: ensure_dir
+    path: ./resources/[ox]
+
+  - action: ensure_dir
+    path: ./resources/[dependencias]
+
+  - action: ensure_dir
+    path: ./resources/[pluggins]
+
+  - action: ensure_dir
+    path: ./resources/[creators]
+
+  - action: ensure_dir
+    path: ./resources/[stream]
+
+  - action: ensure_dir
+    path: ./resources/[stream]/[maps]
+
+  - action: ensure_dir
+    path: ./resources/[stream]/[vehicles]
+
+  - action: ensure_dir
+    path: ./resources/[stream]/[shells]
+
+  - action: ensure_dir
+    path: ./resources/[stream]/[clothing]
+
+  - action: ensure_dir
+    path: ./resources/[stream]/[props]
+
+  # DOWNLOAD AND CONFIGURE BASE RESOURCES
   - action: download_github
     src: https://github.com/citizenfx/cfx-server-data
     ref: master
     subpath: resources
     dest: ./resources/[cfx-default]
+
   - action: remove_path
     path: ./resources/[cfx-default]/[gameplay]/chat  
 
-  # [CORE]
+  # ESX CORE AND ADDONS
   - action: download_github
     src: https://github.com/esx-framework/esx-core
     ref: main
     dest: ./tmp/core
 
+  - action: remove_path
+    path: ./tmp/core/server.cfg
+
+  - action: remove_path
+    path: ./tmp/core/myLogo.png
+
+  - action: move_path
+    src: ./tmp/core/[core]
+    dest: ./resources/[core]
+
+  - action: move_path
+    src: ./resources/[core]/es_extended
+    dest: ./resources
+
+  # ESX ADDONS
   - action: download_github
     src: https://github.com/esx-framework/esx_addonaccount
     ref: main
@@ -73,7 +142,7 @@ tasks:
     ref: main
     dest: ./tmp/addons/esx_optionalneeds
 
-  - action: waste_time # prevent github throttling
+  - action: waste_time
     seconds: 5
 
   - action: download_github
@@ -101,150 +170,88 @@ tasks:
     ref: main
     dest: ./tmp/addons/esx_status
 
-  - action: ensure_dir 
-    path: ./resources/[core]
-
-  - action: move_path
-    src: ./tmp/core/[core]
-    dest: ./resources/[core]
-
-  - action: remove_path
-    path: ./resources/[core]/server.cfg
-
-  - action: remove_path
-    path: ./resources/[core]/myLogo.png
-
-  - action: move_path
-    src: ./resources/[core]/es_extended
-    dest: ./resources
-
-  - action: move_path
-    src: ./tmp/recipe/server.cfg
-    dest: ./server.cfg
-
-  - action: move_path 
-    src: ./tmp/recipe/myLogo.png
-    dest: ./myLogo.png
-    overwrite: true
-
-  - action: ensure_dir 
-    path: ./resources/[esx]
-
   - action: move_path
     src: ./tmp/addons/
     dest: ./resources/[esx]
 
-  - action: waste_time # prevent github throttling
-    seconds: 5
-
-  # [BADGERS]
-  - action: ensure_dir
-    path: ./resources/[badgers] 
-  # Badger_Discord_API 
-  - action: download_github
-    src: https://github.com/JaredScar/Badger_Discord_API
-    ref: main
-    dest: ./resources/[badgers]/Badger_Discord_API
-  # DiscordAcePerms 
-  - action: download_github 
-    src: https://github.com/JaredScar/DiscordAcePerms
-    ref: master 
-    dest: ./resources/[badgers]/DiscordAcePerms
-
-   # [LIBRERIAS] 
-  - action: ensure_dir 
-    path: ./resources/[librerias]
-
-  # ox_lib
+  # OX RESOURCES
   - action: download_file
     path: ./tmp/ox_lib.zip
     url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+
   - action: unzip
     dest: ./resources/[librerias]
     src: ./tmp/ox_lib.zip
   
-  # oxmysql
   - action: download_file
     path: ./tmp/oxmysql.zip
     url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+
   - action: unzip
     dest: ./resources/[librerias]
     src: ./tmp/oxmysql.zip
-  
-  # [OX] 
-  - action: ensure_dir
-    path: ./resources/[ox] 
 
-  # ox_inventory
   - action: download_file
     path: ./tmp/ox_inventory.zip
     url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+
   - action: unzip
-    dest: ./resources/[dependencias]
+    dest: ./resources/[ox]
     src: ./tmp/ox_inventory.zip
 
-  # ox_target
   - action: download_file
     path: ./tmp/ox_target.zip
     url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
+
   - action: unzip
-    dest: ./resources/[dependencias]
+    dest: ./resources/[ox]
     src: ./tmp/ox_target.zip
   
-  # ox_doorlock
   - action: download_file
     path: ./tmp/ox_doorlock.zip
     url: https://github.com/overextended/ox_doorlock/releases/latest/download/ox_doorlock.zip
+
   - action: unzip
-    dest: ./resources/[dependencias]
+    dest: ./resources/[ox]
     src: ./tmp/ox_doorlock.zip
 
-  # ox_fuel
   - action: download_github
-    dest: ./resources/[dependencias]/ox_fuel
+    dest: ./resources/[ox]/ox_fuel
     ref: v1.4.0
     src: https://github.com/overextended/ox_fuel
 
-  # dx_hud
   - action: download_github
     src: https://github.com/0xDEMXN/dx_hud
     ref: main
     dest: ./resources/[ox]/dx_hud
 
-
-  # [DEPENDENCIAS] 
-  - action: ensure_dir
-    path: ./resources/[dependencias] 
-
-  # screenshot-basic 
+  # OTHER DEPENDENCIES
   - action: download_file
     path: ./tmp/screenshot-basic.zip
     url: https://github.com/project-error/screenshot-basic/releases/latest/download/screenshot-basic.zip
+
   - action: unzip
     dest: ./resources/[dependencias]/screenshot-basic
     src: ./tmp/screenshot-basic.zip
 
-  # xsound 
   - action: download_github
     src: https://github.com/Xogy/xsound
-    ref: master 
+    ref: master
     dest: ./resources/[dependencias]/xsound
 
-  # pma-voice  
   - action: download_github
     dest: ./resources/[dependencias]/pma-voice
     ref: main
     src: https://github.com/AvarianKnight/pma-voice
 
-  # illenium-appearance  
   - action: download_file
     path: ./tmp/illenium-appearance.zip
     url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+
   - action: unzip
     dest: ./resources/[dependencias]
     src: ./tmp/illenium-appearance.zip
 
-  # MugShotBase64 
   - action: download_github
     dest: ./resources/[dependencias]/MugShotBase64
     ref: main
@@ -259,84 +266,56 @@ tasks:
     url: https://raw.githubusercontent.com/BaziForYou/MugShotBase64/main/LICENSE.md
     path: ./resources/[dependencias]/MugShotBase64/LICENSE.md
 
-  # ultra-voltlab
   - action: download_github
     dest: ./resources/[dependencias]/ultra-voltlab
     ref: main
     src: https://github.com/ultrahacx/ultra-voltlab
 
-  # mana audio
   - action: download_github
     src: https://github.com/Manason/mana_audio
     ref: main
     dest: ./resources/[dependencias]/mana_audio
 
-  # loadingscreen
   - action: download_github
     src: https://github.com/DokaDoka/pe-basicloading
     ref: ox
     dest: ./resources/[dependencias]/pe-basicloading
-  
-  # [PLUGGINS]
-  - action: ensure_dir 
-    path: ./resources/[pluggins]
 
-  # scully_emotemenu
+  # PLUGGINS
   - action: download_github
     dest: ./resources/[pluggins]/scully_emotemenu
     ref: main
     src: https://github.com/Scullyy/scully_emotemenu
 
-  # Renewed-Banking
   - action: download_file
     path: ./tmp/Renewed-Banking.zip
     url: https://github.com/Renewed-Scripts/Renewed-Banking/releases/latest/download/Renewed-Banking.zip
+
   - action: unzip
     dest: ./resources/[pluggins]
     src: ./tmp/Renewed-Banking.zip
 
-  # Lunar garage
   - action: download_github
     src: https://github.com/Lunar-Scripts/lunar_garage
     ref: main
     dest: ./resources/[pluggins]/lunar_garage
 
-  # Lunar jobcentre
   - action: download_github
     src: https://github.com/Lunar-Scripts/lunar_jobcentre
     ref: main
     dest: ./resources/[pluggins]/lunar_jobcentre
 
-  # [CREATORS] 
-  - action: ensure_dir 
-    path: ./resources/[creators]
-    
-  # [STREAM] 
-  - action: ensure_dir 
-    path: ./resources/[stream] 
-  - action: ensure_dir 
-    path: ./resources/[stream]/[maps]
-  - action: ensure_dir 
-    path: ./resources/[stream]/[vehicles]
-  - action: ensure_dir 
-    path: ./resources/[stream]/[shells]
-  - action: ensure_dir 
-    path: ./resources/[stream]/[clothing]
-  - action: ensure_dir 
-    path: ./resources/[stream]/[props]
-
-  # bob74_ipl 
+  # STREAM RESOURCES
   - action: download_github
     src: https://github.com/Bob74/bob74_ipl
-    ref: master 
+    ref: master
     dest: ./resources/[stream]/bob74_ipl
 
- 
-  # SQL STUFF 
+  # SQL CONFIGURATION
   - action: connect_database
   - action: query_database
     file: ./tmp/core/[SQL]/legacy.sql
-   
-  # Server-Base-Pack UP
+
+  # CLEANUP TEMPORARY FILES
   - action: remove_path
     path: ./tmp
