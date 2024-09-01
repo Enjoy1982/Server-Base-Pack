@@ -1,0 +1,353 @@
+$engine: 3
+$onesync: on
+name: Server-Base-Pack
+version: 1.0.0
+author: Enjoy_it
+description: >
+  Solo incluye la base, incluidos los esx_core y cualquier lanzamientos gratuitos
+
+tasks:
+  # DOWNLOAD BASE FILES FROM TXADMINRECIPE
+  - action: download_github
+    src: https://github.com/Server-Base-Pack/txAdminRecipe/
+    ref: main
+    dest: ./tmp/recipe
+
+  # MAIN SERVER CONFIG
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+
+  # BASE Server-Base-Pack LOGO  
+  - action: move_path 
+    src: ./tmp/recipe/myLogo.png
+    dest: ./myLogo.png
+    overwrite: true
+
+  # ENSURE RESOURCE FOLDER  
+  - action: ensure_dir
+    path: ./resources
+    
+  # ENSURE SUB RESOURCE FOLDERS
+  # [CFX-DEFAULT] 
+  - action: download_github
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources/[cfx-default]
+  - action: remove_path
+    path: ./resources/[cfx-default]/[gameplay]/chat  
+
+  # [CORE]
+  - action: download_github
+    src: https://github.com/esx-framework/esx-core
+    ref: main
+    dest: ./tmp/core
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_addonaccount
+    ref: main
+    dest: ./tmp/addons/esx_addonaccount
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_addoninventory
+    ref: main
+    dest: ./tmp/addons/esx_addoninventory
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_datastore
+    ref: main
+    dest: ./tmp/addons/esx_datastore
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_service
+    ref: main
+    dest: ./tmp/addons/esx_service
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_rpchat
+    ref: main
+    dest: ./tmp/addons/esx_rpchat
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_cruisecontrol
+    ref: main
+    dest: ./tmp/addons/esx_cruisecontrol
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_basicneeds
+    ref: main
+    dest: ./tmp/addons/esx_basicneeds
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_optionalneeds
+    ref: main
+    dest: ./tmp/addons/esx_optionalneeds
+
+  - action: waste_time # prevent github throttling
+    seconds: 5
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_property
+    ref: main
+    dest: ./tmp/addons/esx_property
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_joblisting
+    ref: main
+    dest: ./tmp/addons/esx_joblisting
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_society
+    ref: main
+    dest: ./tmp/addons/esx_society
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_license
+    ref: main
+    dest: ./tmp/addons/esx_license
+
+  - action: download_github
+    src: https://github.com/esx-framework/esx_status
+    ref: main
+    dest: ./tmp/addons/esx_status
+
+  - action: ensure_dir 
+    path: ./resources/[core]
+
+  - action: move_path
+    src: ./tmp/core/[core]
+    dest: ./resources/[core]
+
+  - action: remove_path
+    path: ./resources/[core]/server.cfg
+
+  - action: remove_path
+    path: ./resources/[core]/myLogo.png
+
+  - action: move_path
+    src: ./resources/[core]/es_extended
+    dest: ./resources
+
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+
+  - action: move_path 
+    src: ./tmp/recipe/myLogo.png
+    dest: ./myLogo.png
+    overwrite: true
+
+  - action: ensure_dir 
+    path: ./resources/[esx]
+
+  - action: move_path
+    src: ./tmp/addons/
+    dest: ./resources/[esx]
+
+  - action: waste_time # prevent github throttling
+    seconds: 5
+
+  # [BADGERS]
+  - action: ensure_dir
+    path: ./resources/[badgers] 
+  # Badger_Discord_API 
+  - action: download_github
+    src: https://github.com/JaredScar/Badger_Discord_API
+    ref: main
+    dest: ./resources/[badgers]/Badger_Discord_API
+  # DiscordAcePerms 
+  - action: download_github 
+    src: https://github.com/JaredScar/DiscordAcePerms
+    ref: master 
+    dest: ./resources/[badgers]/DiscordAcePerms
+
+   # [LIBRERIAS] 
+  - action: ensure_dir 
+    path: ./resources/[librerias]
+
+  # ox_lib
+  - action: download_file
+    path: ./tmp/ox_lib.zip
+    url: https://github.com/overextended/ox_lib/releases/latest/download/ox_lib.zip
+  - action: unzip
+    dest: ./resources/[librerias]
+    src: ./tmp/ox_lib.zip
+  
+  # oxmysql
+  - action: download_file
+    path: ./tmp/oxmysql.zip
+    url: https://github.com/overextended/oxmysql/releases/latest/download/oxmysql.zip
+  - action: unzip
+    dest: ./resources/[librerias]
+    src: ./tmp/oxmysql.zip
+  
+  # [OX] 
+  - action: ensure_dir
+    path: ./resources/[ox] 
+
+  # ox_inventory
+  - action: download_file
+    path: ./tmp/ox_inventory.zip
+    url: https://github.com/overextended/ox_inventory/releases/latest/download/ox_inventory.zip
+  - action: unzip
+    dest: ./resources/[dependencias]
+    src: ./tmp/ox_inventory.zip
+
+  # ox_target
+  - action: download_file
+    path: ./tmp/ox_target.zip
+    url: https://github.com/overextended/ox_target/releases/latest/download/ox_target.zip
+  - action: unzip
+    dest: ./resources/[dependencias]
+    src: ./tmp/ox_target.zip
+  
+  # ox_doorlock
+  - action: download_file
+    path: ./tmp/ox_doorlock.zip
+    url: https://github.com/overextended/ox_doorlock/releases/latest/download/ox_doorlock.zip
+  - action: unzip
+    dest: ./resources/[dependencias]
+    src: ./tmp/ox_doorlock.zip
+
+  # ox_fuel
+  - action: download_github
+    dest: ./resources/[dependencias]/ox_fuel
+    ref: v1.4.0
+    src: https://github.com/overextended/ox_fuel
+
+  # dx_hud
+  - action: download_github
+    src: https://github.com/0xDEMXN/dx_hud
+    ref: main
+    dest: ./resources/[ox]/dx_hud
+
+
+  # [DEPENDENCIAS] 
+  - action: ensure_dir
+    path: ./resources/[dependencias] 
+
+  # screenshot-basic 
+  - action: download_file
+    path: ./tmp/screenshot-basic.zip
+    url: https://github.com/project-error/screenshot-basic/releases/latest/download/screenshot-basic.zip
+  - action: unzip
+    dest: ./resources/[dependencias]/screenshot-basic
+    src: ./tmp/screenshot-basic.zip
+
+  # xsound 
+  - action: download_github
+    src: https://github.com/Xogy/xsound
+    ref: master 
+    dest: ./resources/[dependencias]/xsound
+
+  # pma-voice  
+  - action: download_github
+    dest: ./resources/[dependencias]/pma-voice
+    ref: main
+    src: https://github.com/AvarianKnight/pma-voice
+
+  # illenium-appearance  
+  - action: download_file
+    path: ./tmp/illenium-appearance.zip
+    url: https://github.com/iLLeniumStudios/illenium-appearance/releases/latest/download/illenium-appearance.zip
+  - action: unzip
+    dest: ./resources/[dependencias]
+    src: ./tmp/illenium-appearance.zip
+
+  # MugShotBase64 
+  - action: download_github
+    dest: ./resources/[dependencias]/MugShotBase64
+    ref: main
+    src: https://github.com/BaziForYou/MugShotBase64
+    subpath: MugShotBase64
+
+  - action: download_file
+    url: https://raw.githubusercontent.com/BaziForYou/MugShotBase64/main/README.md
+    path: ./resources/[dependencias]/MugShotBase64/README.md
+
+  - action: download_file
+    url: https://raw.githubusercontent.com/BaziForYou/MugShotBase64/main/LICENSE.md
+    path: ./resources/[dependencias]/MugShotBase64/LICENSE.md
+
+  # ultra-voltlab
+  - action: download_github
+    dest: ./resources/[dependencias]/ultra-voltlab
+    ref: main
+    src: https://github.com/ultrahacx/ultra-voltlab
+
+  # mana audio
+  - action: download_github
+    src: https://github.com/Manason/mana_audio
+    ref: main
+    dest: ./resources/[dependencias]/mana_audio
+
+  # loadingscreen
+  - action: download_github
+    src: https://github.com/DokaDoka/pe-basicloading
+    ref: ox
+    dest: ./resources/[dependencias]/pe-basicloading
+  
+  # [PLUGGINS]
+  - action: ensure_dir 
+    path: ./resources/[pluggins]
+
+  # scully_emotemenu
+  - action: download_github
+    dest: ./resources/[pluggins]/scully_emotemenu
+    ref: main
+    src: https://github.com/Scullyy/scully_emotemenu
+
+  # Renewed-Banking
+  - action: download_file
+    path: ./tmp/Renewed-Banking.zip
+    url: https://github.com/Renewed-Scripts/Renewed-Banking/releases/latest/download/Renewed-Banking.zip
+  - action: unzip
+    dest: ./resources/[pluggins]
+    src: ./tmp/Renewed-Banking.zip
+
+  # Lunar garage
+  - action: download_github
+    src: https://github.com/Lunar-Scripts/lunar_garage
+    ref: main
+    dest: ./resources/[pluggins]/lunar_garage
+
+  # Lunar jobcentre
+  - action: download_github
+    src: https://github.com/Lunar-Scripts/lunar_jobcentre
+    ref: main
+    dest: ./resources/[pluggins]/lunar_jobcentre
+
+  # [CREATORS] 
+  - action: ensure_dir 
+    path: ./resources/[creators]
+    
+  # [STREAM] 
+  - action: ensure_dir 
+    path: ./resources/[stream] 
+  - action: ensure_dir 
+    path: ./resources/[stream]/[maps]
+  - action: ensure_dir 
+    path: ./resources/[stream]/[vehicles]
+  - action: ensure_dir 
+    path: ./resources/[stream]/[shells]
+  - action: ensure_dir 
+    path: ./resources/[stream]/[clothing]
+  - action: ensure_dir 
+    path: ./resources/[stream]/[props]
+
+  # bob74_ipl 
+  - action: download_github
+    src: https://github.com/Bob74/bob74_ipl
+    ref: master 
+    dest: ./resources/[stream]/bob74_ipl
+
+ 
+  # SQL STUFF 
+  - action: connect_database
+  - action: query_database
+    file: ./tmp/core/[SQL]/legacy.sql
+   
+  # Server-Base-Pack UP
+  - action: remove_path
+    path: ./tmp
