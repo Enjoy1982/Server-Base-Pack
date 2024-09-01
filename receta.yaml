@@ -25,9 +25,6 @@ tasks:
     path: ./resources/[cfx-default]
 
   - action: ensure_dir
-    path: ./resources/[core]
-
-  - action: ensure_dir
     path: ./resources/[esx]
 
   - action: ensure_dir
@@ -81,19 +78,6 @@ tasks:
     src: https://github.com/esx-framework/esx-core
     ref: main
     dest: ./tmp/core
-
-  - action: move_path
-    src: ./tmp/core/[core]
-    dest: ./resources/[core]
-
-  - action: move_path
-    src: ./tmp/recipe/server.cfg
-    dest: ./server.cfg
-    overwrite: true
-
-  - action: move_path
-    src: ./resources/[core]/es_extended
-    dest: ./resources
 
   # ESX ADDONS
   - action: download_github
@@ -163,6 +147,10 @@ tasks:
     src: https://github.com/esx-framework/esx_status
     ref: main
     dest: ./tmp/addons/esx_status
+
+- action: move_path
+    src: ./tmp/core/[core]
+    dest: ./resources/[core]
 
   - action: move_path
     src: ./tmp/addons/
@@ -304,6 +292,15 @@ tasks:
     src: https://github.com/Bob74/bob74_ipl
     ref: master
     dest: ./resources/[stream]/bob74_ipl
+
+  - action: move_path
+    src: ./tmp/recipe/server.cfg
+    dest: ./server.cfg
+    overwrite: true
+
+  - action: move_path
+    src: ./resources/[core]/es_extended
+    dest: ./resources
 
   # SQL CONFIGURATION
   - action: connect_database
