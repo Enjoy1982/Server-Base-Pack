@@ -9,7 +9,7 @@ description: >
 tasks:
   # DOWNLOAD BASE FILES FROM TXADMINRECIPE
   - action: download_github
-    src: https://github.com/Server-Base-Pack/txAdminRecipe/
+    src: https://github.com/Server-Base-Pack/receta/
     ref: main
     dest: ./tmp/recipe
 
